@@ -17,7 +17,7 @@
 
 - 提供 `resume_tsinghua_purple.tex` LaTeX 模板；
 - 提供 `resume_master_source.md` 信息母版模板；
-- 提供 `profile_photo.png` 证件照占位文件；
+- 提供 `profile_photo.png` 照片占位文件；
 - 提供适用于 `Codex + macOS` 的本地 skill 与脚本工作流。
 
 当前已知范围限制：
@@ -43,7 +43,7 @@
 - `resume_master_source.md`
   信息母版模板，需替换为你自己的真实信息。
 - `profile_photo.png`
-  证件照占位文件，建议替换为标准 `5:7` 比例证件照。
+  照片占位文件，建议替换为标准 `5:7` 比例的真实照片。
 - `skills/make-resume-variant/`
   `Codex` 使用的本地 skill、脚本与参考资料。
 - `AGENTS.md`
@@ -56,10 +56,16 @@
 项目默认采用以下命名：
 
 - 信息母版文件：`resume_master_source.md`
-- 证件照文件：`profile_photo.png`
+- 照片文件：`profile_photo.png`
 - 模板文件：`latex template/resume_tsinghua_purple.tex`
 
 建议手动模式和 agent 模式都保持这些文件名不变，以减少额外配置。
+
+注意：
+
+- 这两个文件名是工作流中的显式依赖文件名，用户不应自行更改：
+  `resume_master_source.md`
+  `profile_photo.png`
 
 ## 使用方式
 
@@ -69,7 +75,7 @@
 
 1. 使用 `latex template/resume_tsinghua_purple.tex`。
 2. 替换其中的占位内容。
-3. 将你的证件照放在同目录下，并命名为 `profile_photo.png` 或 `profile_photo.jpg`。
+3. 将你的真实照片放在同目录下，并命名为 `profile_photo.png` 或 `profile_photo.jpg`。
 4. 确保 LaTeX 编译环境可用后执行编译。
 
 推荐命令：
@@ -89,6 +95,9 @@ latexmk -xelatex resume_tsinghua_purple.tex
 
 - 模板默认使用 XeLaTeX。
 - 模板默认字体为 `Avenir Next` 与 `Hiragino Sans GB`。这套配置更偏向 `macOS`；如果不在 `macOS` 上，通常需要先修改字体设置再编译。
+- 手动模式下，模板支持的照片格式为：
+  `profile_photo.png`
+  `profile_photo.jpg`
 - 若目录中没有 `profile_photo.png` / `profile_photo.jpg`，模板会显示占位框，不会因缺照片而直接编译失败。
 
 ### 2. 使用 Codex + Skill
@@ -144,15 +153,19 @@ latexmk -xelatex resume_tsinghua_purple.tex
 
 ## 开始前必须替换的文件
 
-无论手动还是 agent 模式，开始前都应先替换以下文件：
+按使用方式区分：
 
-- `resume_master_source.md`
-- `profile_photo.png`
+- 手动模式：
+  不要求先替换 `resume_master_source.md`；你只需要直接修改 `resume_tsinghua_purple.tex` 的内容，并准备好同目录下的真实照片文件。
+- `Codex` / release 模式：
+  开始前应先替换以下两个文件，并保持文件名不变：
+  `resume_master_source.md`
+  `profile_photo.png`
 
 其中：
 
 - `resume_master_source.md` 应填写你的真实教育、项目、论文、技能、荣誉等信息；
-- `profile_photo.png` 应替换为你的真实证件照。
+- `profile_photo.png` 应替换为你的真实照片，建议使用 `5:7` 比例。
 
 ## 适合什么场景
 
