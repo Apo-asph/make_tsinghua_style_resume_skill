@@ -9,29 +9,30 @@
 
 ## 当前状态
 
-当前版本：`v0.1.0`
+当前版本：`v0.2.0`
 
-这是首个公开版本。
+这是首个跨平台版本。
 
-`v0.1.0` 范围：
+`v0.2.0` 范围：
 
 - 提供 `resume_tsinghua_purple.tex` LaTeX 模板；
 - 提供 `resume_master_source.md` 信息母版模板；
 - 提供 `profile_photo.png` 照片占位文件；
-- 提供适用于 `Codex + macOS` 的本地 skill 与脚本工作流。
+- 提供适用于 `Codex + macOS / Windows` 的本地 skill 与脚本工作流。
+- 提供跨平台 Python 脚本入口，并保留 `.sh` 包装层兼容 `macOS` / `Linux`。
+- 为模板补充跨平台字体回退，降低不同系统下的首次编译门槛。
 
 当前已知范围限制：
 
 - agent 工作流按 `Codex` 设计；
-- 脚本与默认字体配置按 `macOS` 环境设计与验证；
-- 原生 `Windows` 环境下暂不保证开箱即用。
+- 仍依赖本地安装的 `xelatex`、`latexmk`、`ctex` 与 `ghostscript`；
+- 若系统字体不包含推荐字体，将自动回退到可用字体，但不同平台的细微版式仍可能略有差异。
 
 ## 后续计划
 
 计划中的后续版本包括：
 
 - 增加面向 `Claude Code` 的适配与使用说明；
-- 增加原生 `Windows` 环境支持，减少对 `.sh` 脚本与 macOS 字体/路径假设的依赖；
 - 继续完善 release 结构与跨平台可用性。
 
 ## 项目结构
@@ -48,8 +49,8 @@
   `Codex` 使用的本地 skill、脚本与参考资料。
 - `AGENTS.md`
   agent 在项目根目录下工作的规则说明。
-- `make_tsinghua_style_resume_skill-release-codex-macos-v0.1.0.zip`
-  当前 `v0.1.0` release 包。
+- `make_tsinghua_style_resume_skill-release-codex-cross-platform-v0.2.0.zip`
+  当前 `v0.2.0` release 包命名建议。
 
 ## 命名约定
 
@@ -96,7 +97,11 @@ latexmk -xelatex resume_tsinghua_purple.tex
 说明：
 
 - 模板默认使用 XeLaTeX。
-- 模板默认字体为 `Avenir Next` 与 `Hiragino Sans GB`。这套配置更偏向 `macOS`；如果不在 `macOS` 上，通常需要先修改字体设置再编译。
+- 模板现在会优先尝试：
+  `Avenir Next` / `Hiragino Sans GB`（`macOS`）
+  `Segoe UI` / `Microsoft YaHei`（`Windows`）
+  `TeX Gyre Heros` / `FandolHei-Regular`（通用回退）
+- 因此多数 `macOS` / `Windows` 环境无需先手改字体配置即可完成首次编译。
 - 手动模式下，模板支持的照片格式为：
   `profile_photo.png`
   `profile_photo.jpg`
@@ -121,37 +126,32 @@ latexmk -xelatex resume_tsinghua_purple.tex
 
 ## release / Codex 模式环境要求
 
-当前 release 为 `Codex + macOS` 的 `v0.1.0` 版本，脚本按 macOS 环境设计与验证。
+当前 release 为 `Codex + macOS / Windows` 的 `v0.2.0` 版本，默认脚本入口为 Python。
 
 若要完整使用 skill 的自动编译、审查和清理能力，建议环境中至少具备：
 
-- `macOS`
-- `bash`
+- `macOS` 或 `Windows`
+- `python3`（或可用的 `python` 命令）
 - `xelatex`
 - `latexmk`
 - `ctex`
 - `ghostscript`
-- `find`
-- `mktemp`
-- `mkdir`
-- `rm`
-- `wc`
-- `tr`
 
 脚本层面的具体假设：
 
-- `skills/make-resume-variant/scripts/compile_resume.sh`
-  依赖 `latexmk`、`xelatex`，并显式使用 `/Library/TeX/texbin`。
-- `skills/make-resume-variant/scripts/inspect_resume_pdf.sh`
-  依赖 `gs`，并显式把 `/opt/homebrew/bin` 加入 `PATH`。
-- `skills/make-resume-variant/scripts/cleanup_temp_files.sh`
-  依赖 `bash`、`find`、`rm` 等 Unix 命令。
+- `skills/make-resume-variant/scripts/compile_resume.py`
+  依赖 `python3`、`latexmk` 与 `xelatex`，不再依赖固定的系统路径。
+- `skills/make-resume-variant/scripts/inspect_resume_pdf.py`
+  依赖 `python3` 与 Ghostscript，兼容 `gs`、`gswin64c`、`gswin32c`。
+- `skills/make-resume-variant/scripts/cleanup_temp_files.py`
+  依赖 `python3`，不再依赖 `bash`、`find`、`rm` 等 Unix 命令。
+- 同名 `.sh` 包装脚本继续保留，方便 `macOS` / `Linux` 用户沿用旧命令。
 
 因此：
 
-- 当前 release 推荐在 `macOS` 下使用；
-- 原生 `Windows` 的 `CMD` / `PowerShell` 不能直接运行这些 `.sh` 脚本；
-- 若在 `Windows` 上使用，通常需要 `WSL` 或其他兼容 shell 环境，并自行处理字体、路径与依赖问题。
+- 当前 release 可在原生 `Windows` 的 `PowerShell` / `CMD` 中使用 Python 入口脚本；
+- `macOS` / `Linux` 用户可继续使用 `.sh` 命令，也可统一改用 Python 入口；
+- 只要 `latexmk`、`xelatex`、Ghostscript 与 Python 已加入 `PATH`，就不再依赖 `WSL` 或固定的 `macOS` 路径假设。
 
 ## 开始前必须替换的文件
 

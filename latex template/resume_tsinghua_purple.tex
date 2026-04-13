@@ -17,11 +17,50 @@
 \setlength{\tabcolsep}{0pt}
 \renewcommand{\arraystretch}{1.00}
 
-\setmainfont{Avenir Next}
-\setsansfont{Avenir Next}
-\setmonofont{Menlo}
-\setCJKmainfont{Hiragino Sans GB}
-\setCJKsansfont{Hiragino Sans GB}
+\newcommand{\ResumeSetupLatinFonts}{%
+  \IfFontExistsTF{Avenir Next}{%
+    \setmainfont{Avenir Next}%
+    \setsansfont{Avenir Next}%
+  }{%
+    \IfFontExistsTF{Segoe UI}{%
+      \setmainfont{Segoe UI}%
+      \setsansfont{Segoe UI}%
+    }{%
+      \setmainfont{TeX Gyre Heros}%
+      \setsansfont{TeX Gyre Heros}%
+    }%
+  }%
+  \IfFontExistsTF{Menlo}{%
+    \setmonofont{Menlo}%
+  }{%
+    \IfFontExistsTF{Consolas}{%
+      \setmonofont{Consolas}%
+    }{%
+      \setmonofont{Latin Modern Mono}%
+    }%
+  }%
+}
+\newcommand{\ResumeSetupCJKFonts}{%
+  \IfFontExistsTF{Hiragino Sans GB}{%
+    \setCJKmainfont{Hiragino Sans GB}%
+    \setCJKsansfont{Hiragino Sans GB}%
+  }{%
+    \IfFontExistsTF{Microsoft YaHei}{%
+      \setCJKmainfont{Microsoft YaHei}%
+      \setCJKsansfont{Microsoft YaHei}%
+    }{%
+      \IfFontExistsTF{Noto Sans CJK SC}{%
+        \setCJKmainfont{Noto Sans CJK SC}%
+        \setCJKsansfont{Noto Sans CJK SC}%
+      }{%
+        \setCJKmainfont{FandolHei-Regular}%
+        \setCJKsansfont{FandolHei-Regular}%
+      }%
+    }%
+  }%
+}
+\ResumeSetupLatinFonts
+\ResumeSetupCJKFonts
 \renewcommand{\familydefault}{\sfdefault}
 
 \definecolor{Primary}{RGB}{102,8,116}

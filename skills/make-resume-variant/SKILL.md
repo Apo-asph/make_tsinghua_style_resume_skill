@@ -60,14 +60,16 @@ description: Tailor a target-specific LaTeX resume variant in this project from 
 
 ### 4. 编译
 
-- 使用 `scripts/compile_resume.sh <target-slug>` 或 `scripts/compile_resume.sh <absolute-variant-dir>`。
+- 优先使用 `python skills/make-resume-variant/scripts/compile_resume.py <target-slug>` 或 `python skills/make-resume-variant/scripts/compile_resume.py <absolute-variant-dir>`。
+- 若当前环境支持 Bash，可继续使用同名 `.sh` 包装脚本。
 - 通过 `latexmk -xelatex` 编译，因为模板依赖 `ctex` 与系统字体。
 - 编译成功后，默认自动清理该子版目录中的 LaTeX 中间产物，仅保留 `.tex`、`.pdf`、`profile_photo.*` 与用户明确要求保留的资产。
 - 如果编译失败，先修复 LaTeX 问题，再进入版式审查。
 
 ### 5. 先审查 PDF，再改排版
 
-- 使用 `scripts/inspect_resume_pdf.sh <pdf-path>` 渲染预览图并报告页数。
+- 优先使用 `python skills/make-resume-variant/scripts/inspect_resume_pdf.py <pdf-path>` 渲染预览图并报告页数。
+- 若当前环境支持 Bash，可继续使用同名 `.sh` 包装脚本。
 - 若未显式指定预览目录，预览图默认生成在 `/tmp`，不应写回项目目录。
 - 若显式指定了项目内预览目录，则该目录视为临时目录，必须在最终交付前清理。
 - 读取 `references/pdf-review-checklist.md`，据此审查编译结果。
@@ -100,7 +102,7 @@ description: Tailor a target-specific LaTeX resume variant in this project from 
 
 ## 临时文件处理
 
-- 若项目提供 `scripts/cleanup_temp_files.sh [path ...]`，优先使用；若脚本不存在，也必须用等效的 shell 清理方式完成递归删除，不能因为缺少脚本而跳过清理。
+- 优先使用 `python skills/make-resume-variant/scripts/cleanup_temp_files.py [path ...]`；若当前环境支持 Bash，也可使用同名 `.sh` 包装脚本。若脚本不存在，也必须用等效方式完成递归清理，不能因为缺少脚本而跳过清理。
 - 临时文件默认包括：`*.aux`、`*.log`、`*.out`、`*.fls`、`*.fdb_latexmk`、`*.xdv`、`*.synctex*`、`missfont.log`、`.DS_Store`、审查预览目录或产物（如 `preview`、`preview_v2`、`*-preview-*`、`*_preview-*`、`*preview*.png`、`*preview*.pdf`）以及 OCR 暂存目录（如 `.ocr-tmp`）。
 - 永远不要把 `latex template` 里的临时文件复制进子版目录。
 - 在开始前可先做一次基线清理；PDF 审查结束且用户接受版面后，在最终回复前必须再次清理，确保项目目录中不残留日志、预览图、预览 PDF 或其他中间产物。
@@ -120,9 +122,10 @@ description: Tailor a target-specific LaTeX resume variant in this project from 
 
 ## 脚本
 
-- `scripts/cleanup_temp_files.sh`：递归清理项目或指定目录中的临时文件。
-- `scripts/compile_resume.sh`：稳定编译某个子版目录，并输出生成的 PDF 路径。
-- `scripts/inspect_resume_pdf.sh`：使用 Ghostscript 渲染 PDF 预览图并报告页数，供人工审查。
+- `scripts/cleanup_temp_files.py`：递归清理项目或指定目录中的临时文件，兼容 `macOS` 与 `Windows`。
+- `scripts/compile_resume.py`：稳定编译某个子版目录，并输出生成的 PDF 路径。
+- `scripts/inspect_resume_pdf.py`：使用 Ghostscript 渲染 PDF 预览图并报告页数，供人工审查。
+- 同名 `.sh` 文件仅作为 `macOS` / `Linux` 包装层保留。
 
 ## 输出约定
 
