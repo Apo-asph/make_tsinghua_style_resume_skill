@@ -1,0 +1,4 @@
+interface:
+  display_name: "简历子版制作"
+  short_description: "按岗位定制、编译、审查并迭代优化 LaTeX 简历子版"
+  default_prompt: "Use $make-resume-variant to create and review a target-specific LaTeX resume variant from the master resume."

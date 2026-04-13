@@ -1,0 +1,242 @@
+\documentclass[10pt,a4paper,fontset=none]{ctexart}
+
+\usepackage[a4paper,top=1.35cm,bottom=1.45cm,left=1.45cm,right=1.45cm]{geometry}
+\usepackage{array}
+\usepackage{enumitem}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{xcolor}
+
+% Compile with XeLaTeX.
+% Preferred photo files in this folder: profile_photo.png or profile_photo.jpg
+
+\pagestyle{empty}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+\setlength{\tabcolsep}{0pt}
+\renewcommand{\arraystretch}{1.00}
+
+\setmainfont{Avenir Next}
+\setsansfont{Avenir Next}
+\setmonofont{Menlo}
+\setCJKmainfont{Hiragino Sans GB}
+\setCJKsansfont{Hiragino Sans GB}
+\renewcommand{\familydefault}{\sfdefault}
+
+\definecolor{Primary}{RGB}{102,8,116}
+\colorlet{PrimaryDark}{Primary!82!black}
+\colorlet{PrimarySoft}{Primary!7!white}
+\definecolor{BodyText}{HTML}{474452}
+\definecolor{SubtleText}{HTML}{736D82}
+\colorlet{RuleLight}{Primary!24!white}
+
+\hypersetup{
+  colorlinks=true,
+  urlcolor=PrimaryDark,
+  linkcolor=PrimaryDark
+}
+
+\newlength{\ResumeSectionBefore}
+\newlength{\ResumeSectionTitleGap}
+\newlength{\ResumeSectionAfter}
+\newlength{\ResumeItemSep}
+\newlength{\ResumeListTopSep}
+\newlength{\ResumeListAfterGap}
+\newlength{\ResumeSkillGap}
+\newlength{\ResumeEntryRowGap}
+\newlength{\ResumeEntryAfterGap}
+\newlength{\ResumeSkillLabelWidth}
+\newlength{\ResumeSkillColumnGap}
+
+\newcommand{\ResumeDensitySetup}[9]{%
+  \setlength{\ResumeSectionBefore}{#1}%
+  \setlength{\ResumeSectionTitleGap}{#2}%
+  \setlength{\ResumeSectionAfter}{#3}%
+  \setlength{\ResumeItemSep}{#4}%
+  \setlength{\ResumeListTopSep}{#5}%
+  \setlength{\ResumeListAfterGap}{#6}%
+  \setlength{\ResumeSkillGap}{#7}%
+  \setlength{\ResumeEntryRowGap}{#8}%
+  \setlength{\ResumeEntryAfterGap}{#9}%
+  \setlist[itemize]{
+    leftmargin=1.3em,
+    itemsep=\ResumeItemSep,
+    topsep=\ResumeListTopSep,
+    parsep=0pt,
+    partopsep=0pt,
+    after=\vspace{\ResumeListAfterGap},
+    label=\textcolor{Primary}{\small$\bullet$}
+  }%
+}
+
+% Density presets:
+% Relaxed = content is short, Normal = default, Compact/Tight = squeeze into one page.
+\newcommand{\ResumeDensityRelaxed}{%
+  \ResumeDensitySetup{1.15em}{0.02em}{0.22em}{0.10em}{0.14em}{0.16em}{0.24em}{-0.24em}{0.96em}%
+}
+
+\newcommand{\ResumeDensityNormal}{%
+  \ResumeDensitySetup{0.96em}{0.02em}{0.18em}{0.08em}{0.08em}{0.10em}{0.18em}{-0.24em}{0.82em}%
+}
+
+\newcommand{\ResumeDensityCompact}{%
+  \ResumeDensitySetup{0.82em}{0.02em}{0.14em}{0.04em}{0.05em}{0.07em}{0.12em}{-0.26em}{0.66em}%
+}
+
+\newcommand{\ResumeDensityTight}{%
+  \ResumeDensitySetup{0.68em}{0.01em}{0.10em}{0.02em}{0.02em}{0.04em}{0.08em}{-0.28em}{0.52em}%
+}
+
+% Change this to Compact or Tight when the whole page is close to overflowing.
+\newcommand{\ResumeGlobalDensity}{Normal}
+
+\makeatletter
+\newcommand{\UseResumeDensity}[1]{%
+  \@ifundefined{ResumeDensity#1}{\ResumeDensityNormal}{\csname ResumeDensity#1\endcsname}%
+}
+\makeatother
+
+\newlength{\PhotoWidth}
+\newlength{\PhotoHeight}
+\setlength{\ResumeSkillLabelWidth}{2.30cm}
+\setlength{\ResumeSkillColumnGap}{0.20cm}
+\setlength{\PhotoWidth}{2.70cm}
+\setlength{\PhotoHeight}{3.78cm}
+
+\newcommand{\ResumeName}{候选人姓名}
+\newcommand{\ResumeTitle}{硕士 / 博士｜研发工程师 / 算法工程师 / AI for Science}
+\newcommand{\ResumePhone}{+86 138-0000-0000}
+\newcommand{\ResumeEmail}{name@example.com}
+\newcommand{\ResumeLocation}{北京 / 上海 / 深圳}
+\newcommand{\ResumeWebsite}{github.com/username}
+\newcommand{\ResumeIntro}{用 1--2 句话概括研究方向、工程能力和岗位匹配度，优先写清方法、结果与代表性成果。}
+
+\newcommand{\RenderPhoto}{%
+  \IfFileExists{profile_photo.png}{%
+    \includegraphics[width=\PhotoWidth,height=\PhotoHeight]{profile_photo.png}%
+  }{%
+    \IfFileExists{profile_photo.jpg}{%
+      \includegraphics[width=\PhotoWidth,height=\PhotoHeight]{profile_photo.jpg}%
+    }{%
+      \fcolorbox{RuleLight}{PrimarySoft}{%
+        \parbox[c][\dimexpr\PhotoHeight-2\fboxsep-2\fboxrule\relax][c]
+        {\dimexpr\PhotoWidth-2\fboxsep-2\fboxrule\relax}{%
+          \centering
+          \color{PrimaryDark}\small 5:7\\证件照位
+        }%
+      }%
+    }%
+  }%
+}
+
+\newcommand{\ResumeSection}[1]{%
+  \vspace{\ResumeSectionBefore}
+  {\color{PrimaryDark}\large\bfseries #1}\par
+  \vspace{\ResumeSectionTitleGap}
+  {\color{Primary}\rule{\linewidth}{0.85pt}}\par
+  \vspace{\ResumeSectionAfter}
+}
+
+\newcommand{\ResumeEntry}[4]{%
+  {\small
+  \begin{tabular*}{\linewidth}{@{}l@{\extracolsep{\fill}}r@{}}
+    {\bfseries\mbox{#1}} & {\color{Primary} #2} \\[\ResumeEntryRowGap]
+    {\color{SubtleText}\mbox{#3}} & {\color{SubtleText} #4}
+  \end{tabular*}\par}
+}
+
+\newcommand{\ResumeDetail}[1]{%
+  {\footnotesize\color{BodyText} #1}\par
+  \vspace{\ResumeEntryAfterGap}
+}
+
+\newenvironment{ResumeSkillTable}{%
+  \begingroup
+  \footnotesize
+  \setlength{\tabcolsep}{0pt}
+  \renewcommand{\arraystretch}{1.00}
+  \begin{tabular*}{\linewidth}{@{}l@{\hspace{\ResumeSkillColumnGap}}l@{}}
+}{%
+  \end{tabular*}\par
+  \endgroup
+}
+
+\NewDocumentEnvironment{ResumeModule}{O{\ResumeGlobalDensity}m}{%
+  \begingroup
+  \UseResumeDensity{#1}%
+  \ResumeSection{#2}%
+}{%
+  \par\endgroup
+}
+
+% Example:
+% \begin{ResumeModule}[Compact]{科研 / 实习经历} ... \end{ResumeModule}
+
+\begin{document}
+\UseResumeDensity{\ResumeGlobalDensity}
+\color{BodyText}
+\footnotesize
+
+\begin{minipage}[t]{0.77\linewidth}
+  {\fontsize{27}{29}\selectfont\bfseries\color{PrimaryDark}\ResumeName}\par
+  \vspace{0.18em}
+  {\large\color{Primary}\ResumeTitle}\par
+  \vspace{0.38em}
+  {\footnotesize
+    \ResumePhone
+    \enspace|\enspace
+    \href{mailto:\ResumeEmail}{\ResumeEmail}
+    \enspace|\enspace
+    \ResumeLocation
+    \enspace|\enspace
+    \href{https://\ResumeWebsite}{\ResumeWebsite}
+  }\par
+  \vspace{0.38em}
+  {\footnotesize\color{BodyText}\ResumeIntro}
+\end{minipage}
+\hfill
+\begin{minipage}[t]{0.18\linewidth}
+  \vspace{-0.2em}
+  \raggedleft
+  \RenderPhoto
+\end{minipage}
+
+\vspace{0.42em}
+{\color{RuleLight}\rule{\linewidth}{1.0pt}}\par
+
+\begin{ResumeModule}[Compact]{教育背景}
+\ResumeEntry{学校名称｜院系 / 专业｜硕士 / 博士}{2022.09 -- 2025.06}{研究方向 / 课程方向 / 代表标签}{城市}
+\ResumeDetail{建议择优保留导师、论文题目、GPA、排名说明、奖学金或拔尖计划等信息。}
+
+\ResumeEntry{学校名称｜院系 / 专业｜本科}{2018.09 -- 2022.06}{基础训练 / 主修方向 / 荣誉项目}{城市}
+\ResumeDetail{课程、排名、荣誉和学生工作建议压缩在 1--2 行内。}
+\end{ResumeModule}
+
+\begin{ResumeModule}[Compact]{科研 / 实习经历}
+\ResumeEntry{某研究院 / 科技公司｜算法实习生 / 研发实习生}{2025.07 -- 2025.09}{LLM / Agent / Fluent / Python}{北京}
+\ResumeDetail{写清业务场景、你的动作和量化结果，例如效率提升、模型指标或交付产出。}
+
+\ResumeEntry{实验室核心课题｜第一作者 / 主要贡献者}{2023.03 -- 至今}{实验设计、物理建模、科学计算、论文撰写}{北京}
+\ResumeDetail{建议突出问题定义、方法路径、关键结果和工程价值，如自动化提升或指标改进。}
+\end{ResumeModule}
+
+\begin{ResumeModule}[Compact]{项目经历}
+\ResumeEntry{AI for Science 项目｜数值模拟与机器学习结合}{2024.03 -- 2024.12}{Python / PyTorch / NumPy / Matplotlib}{}
+\ResumeDetail{写清任务、方法、指标和结果；如适合公开展示，可附代码仓库或论文链接。}
+
+\ResumeEntry{工程计算 / 数据分析项目｜负责人}{2023.06 -- 2023.12}{MATLAB / C++ / Linux / Git}{}
+\ResumeDetail{突出工程实现能力，如自动化脚本、求解器开发或数据平台。}
+\end{ResumeModule}
+
+\begin{ResumeModule}[Tight]{核心技能与成果}
+\begin{ResumeSkillTable}
+  \makebox[\ResumeSkillLabelWidth][l]{\strut\bfseries\color{PrimaryDark} 编程} & \strut Python，C++，MATLAB，LaTeX，Shell \\
+  \makebox[\ResumeSkillLabelWidth][l]{\strut\bfseries\color{PrimaryDark} 仿真与建模} & \strut 机器学习基础，数值模拟，数据处理，误差分析，参数优化 \\
+  \makebox[\ResumeSkillLabelWidth][l]{\strut\bfseries\color{PrimaryDark} 工程与工具} & \strut Linux，Git，PyTorch，NumPy，Pandas，Matplotlib \\
+  \makebox[\ResumeSkillLabelWidth][l]{\strut\bfseries\color{PrimaryDark} 核心能力} & \strut 科研写作，英文文献阅读，复杂问题拆解，跨学科协作，结果导向表达 \\
+  \makebox[\ResumeSkillLabelWidth][l]{\strut\bfseries\color{PrimaryDark} 代表成果} & \strut 论文 / 专利 / 报告建议按“题目 + 身份 + 状态”单行压缩；奖项与英语成绩择优保留。
+\end{ResumeSkillTable}
+\end{ResumeModule}
+
+\end{document}

@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# LaTeX intermediates
+*.aux
+*.log
+*.out
+*.fls
+*.fdb_latexmk
+*.xdv
+*.synctex*
+missfont.log
+
+# Preview artifacts
+preview/
+preview_v2/
+*-preview-*/
+*_preview-*/
+*preview*.png
+*preview*.pdf
+
+# OCR temp
+.ocr-tmp/
+
+# Release bundles
+*.zip
