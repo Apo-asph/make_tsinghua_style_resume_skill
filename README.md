@@ -55,8 +55,12 @@
   共享的核心 skill、脚本与参考资料，当前仍是单一事实来源。
 - `AGENTS.md`
   agent 在项目根目录下工作的规则说明。
-- `make_tsinghua_style_resume_skill-release-cross-agent-v0.3.0.zip`
-  当前 `v0.3.0` release 包命名建议。
+- `make_tsinghua_style_resume_skill-release-claude-code-minimal-v0.3.0.zip`
+  面向 `Claude Code` 的最小启动包。
+- `make_tsinghua_style_resume_skill-release-codex-minimal-v0.3.0.zip`
+  面向 `Codex` 的最小启动包。
+- `make_tsinghua_style_resume_skill-release-manual-template-v0.3.0.zip`
+  面向手动编辑 LaTeX 模板的最小模板包。
 
 ## 命名约定
 
@@ -149,6 +153,15 @@ latexmk -xelatex resume_tsinghua_purple.tex
 - “请为 xx 公司的算法工程师岗位生成一页版简历。”
 - “请根据 `resume_master_source.md` 生成一版 AI for Science 方向简历，并编译检查版式。”
 - “请把当前版本压缩到一页，并保留科研与 Agent 相关项目。”
+
+### 4. 如何选择 release
+
+- 如果你准备在 `Claude Code` 中直接使用项目 skill，并希望包内自带 `CLAUDE.md` 与 `.claude/skills/` 结构，使用：
+  `make_tsinghua_style_resume_skill-release-claude-code-minimal-v0.3.0.zip`
+- 如果你准备在 `Codex` 中直接使用项目 skill，并希望包内自带 `AGENTS.md` 与 `skills/make-resume-variant/`，使用：
+  `make_tsinghua_style_resume_skill-release-codex-minimal-v0.3.0.zip`
+- 如果你只想手动编辑 LaTeX，不使用任何 agent skill，只需要模板、示例 PDF 与基础素材，使用：
+  `make_tsinghua_style_resume_skill-release-manual-template-v0.3.0.zip`
 
 ## release / agent 模式环境要求
 
