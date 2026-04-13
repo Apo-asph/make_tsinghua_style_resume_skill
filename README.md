@@ -56,16 +56,18 @@
 项目默认采用以下命名：
 
 - 信息母版文件：`resume_master_source.md`
-- 照片文件：`profile_photo.png`
+- 照片文件基础名：`profile_photo`
 - 模板文件：`latex template/resume_tsinghua_purple.tex`
 
 建议手动模式和 agent 模式都保持这些文件名不变，以减少额外配置。
 
 注意：
 
-- 这两个文件名是工作流中的显式依赖文件名，用户不应自行更改：
+- 信息母版文件名是工作流中的显式依赖文件名，用户不应自行更改：
   `resume_master_source.md`
+- 照片文件的基础文件名固定为 `profile_photo`，支持的完整文件名为：
   `profile_photo.png`
+  `profile_photo.jpg`
 
 ## 使用方式
 
@@ -107,7 +109,7 @@ latexmk -xelatex resume_tsinghua_purple.tex
 1. 将 release 包内容拷贝到一个空文件夹。
 2. 先用自己的真实信息替换：
    `resume_master_source.md`
-   `profile_photo.png`
+   `profile_photo.png` 或 `profile_photo.jpg`
 3. 以该文件夹为根目录启动 `Codex`。
 4. `Codex` 识别到 `AGENTS.md` 和 `skills/make-resume-variant/` 后，即可按自然语言指令工作。
 
@@ -158,14 +160,14 @@ latexmk -xelatex resume_tsinghua_purple.tex
 - 手动模式：
   不要求先替换 `resume_master_source.md`；你只需要直接修改 `resume_tsinghua_purple.tex` 的内容，并准备好同目录下的真实照片文件。
 - `Codex` / release 模式：
-  开始前应先替换以下两个文件，并保持文件名不变：
+  开始前应先替换以下依赖文件，并保持命名规则不变：
   `resume_master_source.md`
-  `profile_photo.png`
+  `profile_photo.png` 或 `profile_photo.jpg`
 
 其中：
 
 - `resume_master_source.md` 应填写你的真实教育、项目、论文、技能、荣誉等信息；
-- `profile_photo.png` 应替换为你的真实照片，建议使用 `5:7` 比例。
+- `profile_photo.png` 或 `profile_photo.jpg` 应替换为你的真实照片，建议使用 `5:7` 比例。
 
 ## 适合什么场景
 

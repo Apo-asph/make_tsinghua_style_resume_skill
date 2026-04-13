@@ -1,6 +1,6 @@
 ---
 name: make-resume-variant
-description: Tailor a target-specific LaTeX resume variant in this project from `resume_master_source.md`, `profile_photo.png`, and `latex template/resume_tsinghua_purple.tex`, then compile the PDF, review layout, and refine after user approval. Use when Codex needs to create, update, or inspect a Chinese resume variant for research, R&D, algorithm, AI for Science, or high-potential applications.
+description: Tailor a target-specific LaTeX resume variant in this project from `resume_master_source.md`, `profile_photo.png` or `profile_photo.jpg`, and `latex template/resume_tsinghua_purple.tex`, then compile the PDF, review layout, and refine after user approval. Use when Codex needs to create, update, or inspect a Chinese resume variant for research, R&D, algorithm, AI for Science, or high-potential applications.
 ---
 
 # Make Resume Variant
@@ -11,7 +11,7 @@ description: Tailor a target-specific LaTeX resume variant in this project from 
 
 ## 硬约束
 
-- 默认信息母版文件与默认证件照文件统一使用 `resume_master_source.md` 与 `profile_photo.png`；共享仓库中可直接替换为用户自己的已核验材料，除非用户明确提供更新材料。
+- 默认信息母版文件统一使用 `resume_master_source.md`；照片文件的基础文件名统一使用 `profile_photo`，支持 `profile_photo.png` 与 `profile_photo.jpg`。共享仓库中可直接替换为用户自己的已核验材料，除非用户明确提供更新材料。
 - 仅将 `latex template/resume_tsinghua_purple.tex` 视为模板源文件。
 - 如目标公司、岗位、内容取舍、时间线表述、论文状态或投递重点存在不确定项，先提问再起草。
 - 保持小改动；未经确认，不新增依赖。
@@ -36,7 +36,7 @@ description: Tailor a target-specific LaTeX resume variant in this project from 
 - 在项目根目录创建 `<target-slug>/`。
 - 将 `latex template/resume_tsinghua_purple.tex` 复制到该目录，并重命名为 `<target-slug>.tex`。
 - 不要复制 `latex template` 中的 `.aux`、`.log`、`.out`、`.fls`、`.fdb_latexmk`、`missfont.log`、`synctex` 等编译产物。
-- 将 `profile_photo.png` 复制到子版目录，并保持文件名 `profile_photo.png`。
+- 若根目录存在 `profile_photo.png`，复制到子版目录并保持文件名 `profile_photo.png`；否则若存在 `profile_photo.jpg`，复制到子版目录并保持文件名 `profile_photo.jpg`。
 - 默认不做裁剪：共享模板假定默认证件照已预先处理为标准 `5:7` 比例。
 
 ### 3. 定制内容
