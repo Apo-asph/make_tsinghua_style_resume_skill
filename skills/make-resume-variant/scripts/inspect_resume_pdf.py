@@ -2,15 +2,15 @@
 from __future__ import annotations
 
 import argparse
-import shutil
 import subprocess
 import tempfile
 from pathlib import Path
 from typing import List, Optional
 
+from tool_paths import CommandResolutionError, find_ghostscript
+
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
-GHOSTSCRIPT_CANDIDATES = ("gs", "gswin64c", "gswin32c")
 
 
 def resolve_pdf_path(raw_path: str) -> Path:
@@ -21,16 +21,6 @@ def resolve_pdf_path(raw_path: str) -> Path:
 def resolve_preview_dir(raw_path: str, pdf_dir: Path) -> Path:
     path = Path(raw_path)
     return path if path.is_absolute() else pdf_dir / path
-
-
-def find_ghostscript() -> str:
-    for command_name in GHOSTSCRIPT_CANDIDATES:
-        command = shutil.which(command_name)
-        if command:
-            return command
-    candidate_text = ", ".join(GHOSTSCRIPT_CANDIDATES)
-    raise SystemExit(f"Ghostscript not found in PATH. Tried: {candidate_text}")
-
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
@@ -63,7 +53,10 @@ def main(argv: Optional[List[str]] = None) -> int:
         safe_stem = pdf_stem.replace(" ", "_")
         preview_dir = Path(tempfile.mkdtemp(prefix=f"{safe_stem}-preview-"))
 
-    ghostscript = find_ghostscript()
+    try:
+        ghostscript = find_ghostscript()
+    except CommandResolutionError as exc:
+        raise SystemExit(str(exc))
     subprocess.run(
         [
             ghostscript,

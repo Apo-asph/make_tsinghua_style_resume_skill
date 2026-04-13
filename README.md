@@ -140,9 +140,9 @@ latexmk -xelatex resume_tsinghua_purple.tex
 脚本层面的具体假设：
 
 - `skills/make-resume-variant/scripts/compile_resume.py`
-  依赖 `python3`、`latexmk` 与 `xelatex`，不再依赖固定的系统路径。
+  依赖 `python3`、`latexmk` 与 `xelatex`；若它们不在 `PATH` 中，会继续探测常见的 `TeX Live` / `MiKTeX` Windows 安装目录。
 - `skills/make-resume-variant/scripts/inspect_resume_pdf.py`
-  依赖 `python3` 与 Ghostscript，兼容 `gs`、`gswin64c`、`gswin32c`。
+  依赖 `python3` 与 Ghostscript，兼容 `gs`、`gswin64c`、`gswin32c`；若它们不在 `PATH` 中，会继续探测常见的 Windows 安装目录。
 - `skills/make-resume-variant/scripts/cleanup_temp_files.py`
   依赖 `python3`，不再依赖 `bash`、`find`、`rm` 等 Unix 命令。
 - 同名 `.sh` 包装脚本继续保留，方便 `macOS` / `Linux` 用户沿用旧命令。
@@ -151,7 +151,7 @@ latexmk -xelatex resume_tsinghua_purple.tex
 
 - 当前 release 可在原生 `Windows` 的 `PowerShell` / `CMD` 中使用 Python 入口脚本；
 - `macOS` / `Linux` 用户可继续使用 `.sh` 命令，也可统一改用 Python 入口；
-- 只要 `latexmk`、`xelatex`、Ghostscript 与 Python 已加入 `PATH`，就不再依赖 `WSL` 或固定的 `macOS` 路径假设。
+- 即使 `latexmk`、`xelatex`、Ghostscript 未加入 `PATH`，脚本也会优先尝试常见 Windows 安装目录；若仍失败，可通过 `LATEXMK`、`XELATEX`、`GHOSTSCRIPT` 环境变量显式指定可执行文件路径。
 
 ## 开始前必须替换的文件
 

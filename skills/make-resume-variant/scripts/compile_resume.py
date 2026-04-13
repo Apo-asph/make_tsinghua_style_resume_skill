@@ -2,11 +2,12 @@
 from __future__ import annotations
 
 import argparse
-import shutil
 import subprocess
 import sys
 from pathlib import Path
 from typing import List, Optional
+
+from tool_paths import CommandResolutionError, build_command_env, find_latexmk, find_xelatex
 
 
 REPO_ROOT = Path(__file__).resolve().parents[3]
@@ -16,13 +17,6 @@ CLEANUP_SCRIPT = Path(__file__).with_name("cleanup_temp_files.py")
 def resolve_variant_dir(raw_path: str) -> Path:
     path = Path(raw_path)
     return path if path.is_absolute() else REPO_ROOT / path
-
-
-def require_command(name: str) -> str:
-    command = shutil.which(name)
-    if command:
-        return command
-    raise SystemExit(f"{name} not found in PATH.")
 
 
 def build_parser() -> argparse.ArgumentParser:
@@ -51,8 +45,11 @@ def main(argv: Optional[List[str]] = None) -> int:
     if not tex_file.is_file():
         raise SystemExit(f"Expected TeX file not found: {tex_file}")
 
-    latexmk = require_command("latexmk")
-    require_command("xelatex")
+    try:
+        latexmk = find_latexmk()
+        xelatex = find_xelatex()
+    except CommandResolutionError as exc:
+        raise SystemExit(str(exc))
 
     subprocess.run(
         [
@@ -64,6 +61,7 @@ def main(argv: Optional[List[str]] = None) -> int:
             tex_file.name,
         ],
         cwd=variant_dir,
+        env=build_command_env((latexmk, xelatex)),
         check=True,
     )
 
