@@ -10,6 +10,8 @@
 
 % Compile with XeLaTeX.
 % Preferred photo files in this folder: profile_photo.png or profile_photo.jpg
+% The template keeps photo aspect ratio automatically. Common portrait and square
+% ratios from roughly 2:3 to 1:1 should fit naturally without manual cropping.
 
 \pagestyle{empty}
 \setlength{\parindent}{0pt}
@@ -151,18 +153,29 @@
 \newcommand{\ResumeWebsite}{github.com/username}
 \newcommand{\ResumeIntro}{用 1--2 句话概括研究方向、工程能力和岗位匹配度，优先写清方法、结果与代表性成果。}
 
+\newcommand{\RenderPhotoFile}[1]{%
+  \makebox[\PhotoWidth][c]{%
+    \parbox[c][\PhotoHeight][c]{\PhotoWidth}{%
+      \centering
+      \includegraphics[width=\PhotoWidth,height=\PhotoHeight,keepaspectratio]{#1}%
+    }%
+  }%
+}
+
 \newcommand{\RenderPhoto}{%
   \IfFileExists{profile_photo.png}{%
-    \includegraphics[width=\PhotoWidth,height=\PhotoHeight]{profile_photo.png}%
+    \RenderPhotoFile{profile_photo.png}%
   }{%
     \IfFileExists{profile_photo.jpg}{%
-      \includegraphics[width=\PhotoWidth,height=\PhotoHeight]{profile_photo.jpg}%
+      \RenderPhotoFile{profile_photo.jpg}%
     }{%
-      \fcolorbox{RuleLight}{PrimarySoft}{%
-        \parbox[c][\dimexpr\PhotoHeight-2\fboxsep-2\fboxrule\relax][c]
-        {\dimexpr\PhotoWidth-2\fboxsep-2\fboxrule\relax}{%
-          \centering
-          \color{PrimaryDark}\small 5:7\\证件照位
+      \makebox[\PhotoWidth][c]{%
+        \fcolorbox{RuleLight}{PrimarySoft}{%
+          \parbox[c][\dimexpr\PhotoHeight-2\fboxsep-2\fboxrule\relax][c]
+          {\dimexpr\PhotoWidth-2\fboxsep-2\fboxrule\relax}{%
+            \centering
+            \color{PrimaryDark}\small 自动适配\\照片位
+          }%
         }%
       }%
     }%

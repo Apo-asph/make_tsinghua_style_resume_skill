@@ -17,10 +17,12 @@
 - 如果为了排障需要暂时保留日志、预览图或其他临时诊断产物，先向用户确认。
 
 ## Skill 路由
+- 如果任务是通过采访、问答、分轮提问等方式补充或修正 `resume_master_source.md`，优先使用项目内 skill `interview-resume-source`：
+  `skills/interview-resume-source/SKILL.md`
 - 如果任务是生成、更新、编译、审查或排版岗位定制的 LaTeX 简历子版，优先使用项目内 skill `make-resume-variant`：
   `skills/make-resume-variant/SKILL.md`
 - 上述 skill 负责简历子版的素材来源、内容筛选、子版目录、编译、PDF 审查、一页版面控制与例外多页模式。
 - 共享仓库中的默认命名约定：信息母版文件为 `resume_master_source.md`；照片文件的基础文件名固定为 `profile_photo`，支持 `profile_photo.png` 或 `profile_photo.jpg`。
 
 ## 直接处理的任务
-- 如果任务是维护母版信息源本身，例如更新默认信息母版文件 `resume_master_source.md`、整理证明材料、补充课程/成绩、修正基础事实信息，可直接在项目中处理，不必重复走简历子版 skill 的完整流程。
+- 如果任务是维护母版信息源本身，例如更新默认信息母版文件 `resume_master_source.md`、整理证明材料、补充课程/成绩、修正基础事实信息，可直接在项目中处理；如果用户明确希望通过采访方式推进，则切换到 `interview-resume-source` skill。

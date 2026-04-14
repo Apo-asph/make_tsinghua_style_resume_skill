@@ -10,7 +10,7 @@ from typing import Iterable, Tuple
 
 
 PROJECT_NAME = "make_tsinghua_style_resume_skill"
-VERSION = "v0.3.0"
+VERSION = "v0.4.0"
 REPO_ROOT = Path(__file__).resolve().parents[1]
 RELEASE_READMES_DIR = REPO_ROOT / "release-readmes"
 
@@ -20,6 +20,9 @@ COMMON_AGENT_FILES = (
     "resume_master_source.md",
     "profile_photo.png",
     "latex template/resume_tsinghua_purple.tex",
+    "skills/interview-resume-source/SKILL.md",
+    "skills/interview-resume-source/references/interview-outline.md",
+    "skills/interview-resume-source/scripts/audit_resume_source.py",
     "skills/make-resume-variant/SKILL.md",
     "skills/make-resume-variant/references/content-selection.md",
     "skills/make-resume-variant/references/pdf-review-checklist.md",
@@ -29,6 +32,9 @@ COMMON_AGENT_FILES = (
     "skills/make-resume-variant/scripts/compile_resume.sh",
     "skills/make-resume-variant/scripts/inspect_resume_pdf.py",
     "skills/make-resume-variant/scripts/inspect_resume_pdf.sh",
+    "skills/make-resume-variant/scripts/photo_utils.py",
+    "skills/make-resume-variant/scripts/prepare_photo.py",
+    "skills/make-resume-variant/scripts/prepare_photo.sh",
     "skills/make-resume-variant/scripts/tool_paths.py",
 )
 
@@ -60,6 +66,7 @@ def build_release_bundles() -> Tuple[ReleaseBundle, ...]:
             included_files=(
                 "AGENTS.md",
                 "CLAUDE.md",
+                ".claude/skills/interview-resume-source/SKILL.md",
                 ".claude/skills/make-resume-variant/SKILL.md",
             )
             + COMMON_AGENT_FILES,
@@ -71,6 +78,7 @@ def build_release_bundles() -> Tuple[ReleaseBundle, ...]:
             readme_source="README.codex.md",
             included_files=(
                 "AGENTS.md",
+                "skills/interview-resume-source/agents/openai.yaml",
                 "skills/make-resume-variant/agents/openai.yaml",
             )
             + COMMON_AGENT_FILES,

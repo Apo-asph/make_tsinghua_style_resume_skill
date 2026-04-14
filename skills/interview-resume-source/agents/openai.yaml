@@ -1,0 +1,4 @@
+interface:
+  display_name: "母版采访补全"
+  short_description: "通过分轮采访补充或修正 resume_master_source 信息母版"
+  default_prompt: "Use $interview-resume-source to interview the user and fill or repair resume_master_source.md."

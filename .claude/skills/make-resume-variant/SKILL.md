@@ -24,5 +24,6 @@ This file is the Claude Code compatibility wrapper for the canonical project ski
 - Run project scripts from the repository root, for example:
   - `python skills/make-resume-variant/scripts/compile_resume.py <target-slug>`
   - `python skills/make-resume-variant/scripts/inspect_resume_pdf.py <pdf-path>`
+  - `python skills/make-resume-variant/scripts/prepare_photo.py <variant-photo-path>`
   - `python skills/make-resume-variant/scripts/cleanup_temp_files.py [path ...]`
 - The root `CLAUDE.md` imports `AGENTS.md`, so project-level guardrails and cleanup rules still apply.

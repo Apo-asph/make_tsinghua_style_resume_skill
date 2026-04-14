@@ -15,17 +15,26 @@ class ClaudeCodeStructureTests(unittest.TestCase):
         content = claude_md.read_text(encoding="utf-8")
         self.assertIn("@AGENTS.md", content)
 
-    def test_project_skill_wrapper_exists(self) -> None:
-        wrapper_skill = REPO_ROOT / ".claude" / "skills" / "make-resume-variant" / "SKILL.md"
-        self.assertTrue(wrapper_skill.is_file())
+    def test_project_skill_wrappers_exist(self) -> None:
+        resume_variant_wrapper = REPO_ROOT / ".claude" / "skills" / "make-resume-variant" / "SKILL.md"
+        interview_wrapper = REPO_ROOT / ".claude" / "skills" / "interview-resume-source" / "SKILL.md"
+        self.assertTrue(resume_variant_wrapper.is_file())
+        self.assertTrue(interview_wrapper.is_file())
 
-    def test_project_skill_wrapper_points_to_shared_skill(self) -> None:
+    def test_resume_variant_wrapper_points_to_shared_skill(self) -> None:
         wrapper_skill = REPO_ROOT / ".claude" / "skills" / "make-resume-variant" / "SKILL.md"
         content = wrapper_skill.read_text(encoding="utf-8")
 
         self.assertIn("../../../skills/make-resume-variant/SKILL.md", content)
         self.assertIn("../../../skills/make-resume-variant/references/content-selection.md", content)
         self.assertIn("../../../skills/make-resume-variant/references/pdf-review-checklist.md", content)
+
+    def test_interview_wrapper_points_to_shared_skill(self) -> None:
+        wrapper_skill = REPO_ROOT / ".claude" / "skills" / "interview-resume-source" / "SKILL.md"
+        content = wrapper_skill.read_text(encoding="utf-8")
+
+        self.assertIn("../../../skills/interview-resume-source/SKILL.md", content)
+        self.assertIn("../../../skills/interview-resume-source/references/interview-outline.md", content)
 
 
 if __name__ == "__main__":

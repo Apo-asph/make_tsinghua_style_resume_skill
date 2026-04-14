@@ -37,7 +37,11 @@ description: Tailor a target-specific LaTeX resume variant in this project from 
 - 将 `latex template/resume_tsinghua_purple.tex` 复制到该目录，并重命名为 `<target-slug>.tex`。
 - 不要复制 `latex template` 中的 `.aux`、`.log`、`.out`、`.fls`、`.fdb_latexmk`、`missfont.log`、`synctex` 等编译产物。
 - 若根目录存在 `profile_photo.png`，复制到子版目录并保持文件名 `profile_photo.png`；否则若存在 `profile_photo.jpg`，复制到子版目录并保持文件名 `profile_photo.jpg`。
-- 默认不做裁剪：共享模板假定默认证件照已预先处理为标准 `5:7` 比例。
+- 复制完照片后，优先运行 `python skills/make-resume-variant/scripts/prepare_photo.py <variant-photo-path>` 检查照片比例。
+- 共享模板会自动等比适配照片；常见纵向或方形比例只要落在大致 `2:3` 到 `1:1` 的范围内，通常无需手动裁剪。
+- 如果脚本提示照片比例过高或过宽，先向用户说明情况；只有在用户同意后，才对“子版目录中的照片副本”执行居中裁取：
+  `python skills/make-resume-variant/scripts/prepare_photo.py <variant-photo-path> --crop-center`
+- 不要直接修改项目根目录中的原始照片，除非用户明确要求。
 
 ### 3. 定制内容
 
@@ -125,6 +129,7 @@ description: Tailor a target-specific LaTeX resume variant in this project from 
 - `scripts/cleanup_temp_files.py`：递归清理项目或指定目录中的临时文件，兼容 `macOS` 与 `Windows`。
 - `scripts/compile_resume.py`：稳定编译某个子版目录，并输出生成的 PDF 路径。
 - `scripts/inspect_resume_pdf.py`：使用 Ghostscript 渲染 PDF 预览图并报告页数，供人工审查。
+- `scripts/prepare_photo.py`：检测照片比例，并在用户批准后对超出推荐范围的照片做居中裁取。
 - 同名 `.sh` 文件仅作为 `macOS` / `Linux` 包装层保留。
 
 ## 输出约定
